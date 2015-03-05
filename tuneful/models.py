@@ -33,6 +33,7 @@ class File(Base):
   def as_dictionary(self):
     file = {
       "id": self.id,
-      "filename": self.filename
+      "filename": self.filename,
+      "path": url_for("uploaded_file", filename=self.filename)
     }
     return file
