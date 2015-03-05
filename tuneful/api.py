@@ -49,7 +49,7 @@ def post_song():
   
   file = models.File(filename=file.filename)
   song = models.Song(song=file)
-  session.add(song)
+  session.merge(song)
   session.commit()
   
   data = json.dumps(song.as_dictionary())

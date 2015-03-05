@@ -27,7 +27,7 @@ class File(Base):
   __tablename__ = "files"
   
   id = Column(Integer, primary_key=True)
-  filename = Column(String, nullable=False)
+  filename = Column(String, nullable=False, unique=True)
   songs = relationship('Song', backref='song')
   
   def as_dictionary(self):
