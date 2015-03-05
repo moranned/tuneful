@@ -35,16 +35,21 @@ def get_songs():
 @decorators.require("application/json")
 def post_song():
   data = request.json
-
+  
+  fileid = data["file"]["id"]
+  
   try:
     validate(data, song_schema)
   except ValidationError as error:
     data = {"message": error.message}
     return Response(json.dumps(data), 422, mimetype="application/json")
   
-  file = models.File(filename=data["file"]["filename"])
+  file = session.query(models.File)
+  file = file.filter(models.File.id == fileid).first()
+  
+  file = models.File(filename=file.filename)
   song = models.Song(song=file)
-  session.add_all([file, song])
+  session.add(song)
   session.commit()
   
   data = json.dumps(song.as_dictionary())
